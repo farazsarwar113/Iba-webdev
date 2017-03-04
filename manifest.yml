@@ -1,0 +1,5 @@
+---
+applications:
+ - name: testing-abc
+   random-route: true
+   memory: 256M
