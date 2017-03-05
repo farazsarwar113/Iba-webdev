@@ -1,4 +1,5 @@
 var User = require('../users/user.model.js');
+var Order = require('../order/order.model.js');
 var passport = require('passport');
 var Verify = require('../../server/verify.js');
 var log = require('tracer').console({format: "{{message}}  - {{file}}:{{line}}"}).log;

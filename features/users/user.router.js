@@ -17,6 +17,6 @@ router.post('/login', userCtrl.login);
 router.get('/logout', userCtrl.logout);
 
 //Verify me
-router.get('/me', verify.nocache, verify.user, verify.unseal, userCtrl.verifyUser);
+router.get('/me/verify', verify.nocache, verify.user, verify.unseal, userCtrl.verifyUser);
 
 module.exports = router;
