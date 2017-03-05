@@ -18,8 +18,6 @@ exports.getLoginData = function (user, expiry) {
   var userData = user._doc;
   delete userData.hash;
   delete userData.salt;
-  delete userData.resetToken;
-  delete userData.admin;
 
   var deferred = Q.defer();
   Iron.seal(userData, config.sealPass, Iron.defaults, function (err, sealed) {

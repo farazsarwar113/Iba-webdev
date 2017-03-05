@@ -5,6 +5,6 @@ var log = require('tracer').console({format: "{{message}}  - {{file}}:{{line}}"}
 var verify = require('../../server/verify');
 
 //GET employees
-router.get('/', verify.user, empCtrl.listAllEmp);
+router.get('/', verify.user,verify.unseal, empCtrl.listAllEmp);
 
 module.exports = router;

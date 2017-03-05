@@ -33,28 +33,6 @@ var User = new Schema({
   phone_number:{
     type: String,
     default: ''
-  },
-  emp_role: {
-    type: String,
-    default:''
-  },
-  ordered_products: [{
-    product:{
-      type: Schema.Types.ObjectId,
-      ref: 'Product'
-    },
-    date: {
-      type: Date,
-      default: Date.now
-    },
-    status:{
-      type: Number,
-      default: 0  //0 for not delivered  1 for delivered
-    }
-  }],
-  total_bill: {
-    type: Number,
-    default: 0
   }
 });
 

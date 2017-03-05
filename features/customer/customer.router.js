@@ -5,9 +5,9 @@ var log = require('tracer').console({format: "{{message}}  - {{file}}:{{line}}"}
 var verify = require('../../server/verify');
 
 //GET suppliers
-router.get('/', verify.user, verify.admin, cusCtrl.listAllCus);
+router.get('/', verify.user, verify.unseal,verify.admin, cusCtrl.listAllCus);
 
 //get supplier product
-router.get('/products', verify.user, cusCtrl.getCusPro);
+router.get('/products', verify.user,verify.unseal, cusCtrl.getCusPro);
 
 module.exports = router;

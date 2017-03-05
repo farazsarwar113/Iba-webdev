@@ -56,17 +56,11 @@ exports.addProduct = function (req, res) {
                     data: null
                 });
             }
-            inventory[0].products.push(product._id);
+            else{
 
-            inventory.save(function (err, inventory) {
-                if (err) {
-                    return res.status(500).json({
-                        success: false,
-                        message: 'Something went wrong. Please try again.',
-                        data: err
-                    });
-                }
-                product.save(function (err, product) {
+                inventory[0].products.push(product._id);
+
+                inventory[0].save(function (err, inventory) {
                     if (err) {
                         return res.status(500).json({
                             success: false,
@@ -74,13 +68,23 @@ exports.addProduct = function (req, res) {
                             data: err
                         });
                     }
-                    res.status(200).json({
-                        success: true,
-                        message: 'Product added successfully.',
-                        data: product
-                    });
+                    product.save(function (err, product) {
+                        if (err) {
+                            return res.status(500).json({
+                                success: false,
+                                message: 'Something went wrong. Please try again.',
+                                data: err
+                            });
+                        }
+                        res.status(200).json({
+                            success: true,
+                            message: 'Product added successfully.',
+                            data: product
+                        });
+                    })
                 })
-            })
+            }
+
         })
 }
 exports.getProduct = function (req, res) {
@@ -174,94 +178,4 @@ exports.deleteProduct = function (req, res) {
             })
         })
 }
-exports.placeOrder = function (req, res) {
-    User.findById(req._user._id)
-        .populate('ordered_products.product')
-        .exec(function (err, user) {
-            if(err){
-                return res.status(500).json({
-                    success: false,
-                    message: 'Something went wrong. Please try again.',
-                    data: err
-                });
-            }
-            Product.findbyId(req.params.pid)
-                .exec(function (err, product) {
-                    if (err) {
-                        return res.status(500).json({
-                            success: false,
-                            message: 'Something went wrong. Please try again.',
-                            data: err
-                        });
-                    }
-                    if (!product || product == null) {
-                        res.status(200).json({
-                            success: true,
-                            message: 'Product not found. Please check product Id.',
-                            data: null
-                        });
-                    }
-                        if(product.available == false){
-                            res.status(200).json({
-                                success: true,
-                                message: 'Product not available',
-                                data: null
-                            });
-                        }
-                        else{
-                            if(product.stock == 0){
-                                res.status(200).json({
-                                    success: true,
-                                    message: 'Product not in a stock',
-                                    data: null
-                                });
-                            }
-                            else {
-                                if(user.role == 0){
-                                    product.stock -= req.body.stock;
-                                }
-                                if(user.role == 2){
-                                    product.stock += req.body.stock;
-                                }
-                                var obj = {
-                                    product: product._id
-                                };
-                                user.ordered_products.push(obj);
 
-                                var bill;
-                                for(var i =0; i< user.ordered_products.length; i++){
-                                    bill += ordered_products[i].product.price;
-                                }
-                                user.total_bill = bill;
-                                user.save(function (err, user) {
-                                    if(err){
-                                        return res.status(500).json({
-                                            success: false,
-                                            message: 'Something went wrong. Please try again.',
-                                            data: err
-                                        });
-                                    }
-                                    product.save(function (err, product) {
-                                        if(err){
-                                            return res.status(500).json({
-                                                success: false,
-                                                message: 'Something went wrong. Please try again.',
-                                                data: err
-                                            });
-                                        }
-                                        res.status(200).json({
-                                            success: true,
-                                            message: 'Successfully placed order',
-                                            data: product
-                                        });
-                                    })
-                                })
-
-                            }
-
-                    }
-
-                })
-        })
-
-}

@@ -22,7 +22,7 @@ exports.listAllEmp = function (req, res, next) {
     }
     var arr = [];
     for (var i = 0; i < users.length; i++) {
-      if (users[i].role == 0) {
+      if (users[i].role == 1) {
         arr.push(users[i]);
       }
     }

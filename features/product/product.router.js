@@ -6,16 +6,13 @@ var verify = require('../../server/verify');
 
 //GET all products
 router.route('/')
-    .get(verify.user, productCtrl.listAllProduct)
-    .post(verify.user, verify.admin, productCtrl.addProduct)
+    .get(verify.user,verify.unseal, productCtrl.listAllProduct)
+    .post(verify.user,verify.unseal, verify.admin, productCtrl.addProduct)
 
 //get specific product
 router.route('/:pid')
-    .get(verify.user, productCtrl.getProduct)
-    .put(verify.user, verify.admin, productCtrl.updateProduct)
-    .delete(verify.user, verify.admin, productCtrl.deleteProduct);
-
-router.route('/:pid/place/order')
-    .post(verify.user, productCtrl.placeOrder);
+    .get(verify.user,verify.unseal, productCtrl.getProduct)
+    .put(verify.user,verify.unseal, verify.admin, productCtrl.updateProduct)
+    .delete(verify.user,verify.unseal, verify.admin, productCtrl.deleteProduct);
 
 module.exports = router;

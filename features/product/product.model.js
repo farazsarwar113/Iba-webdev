@@ -13,8 +13,8 @@ var Product = new Schema({
         default: 0
     },
     company: {
-        type: Boolean,
-        default: false
+        type: String,
+        default: ''
     },
     type:{
         type: String

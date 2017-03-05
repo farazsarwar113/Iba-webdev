@@ -5,7 +5,7 @@ var log = require('tracer').console({format: "{{message}}  - {{file}}:{{line}}"}
 var verify = require('../../server/verify');
 
 //GET users
-router.get('/', verify.user, userCtrl.listAll);
+router.get('/', verify.user, verify.unseal, verify.admin,userCtrl.listAll);
 
 //Add user
 router.post('/register', userCtrl.register);

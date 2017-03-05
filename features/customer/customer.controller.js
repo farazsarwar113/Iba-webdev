@@ -34,9 +34,9 @@ exports.listAllCus = function (req, res, next) {
   });
 };
 exports.getCusPro = function (req, res, next) {
-  User.findById(req._user._id)
-      .populate('ordered_products.product')
-      .exec(function (err, user) {
+  Order.find({})
+      .populate('user_id')
+      .exec(function (err, order) {
         if (err) {
           return res.status(500).json({
             success: false,
@@ -44,24 +44,23 @@ exports.getCusPro = function (req, res, next) {
             data: err
           });
         }
-        if (!user) {
+        if (order.length == 0) {
           res.status(200).json({
             success: true,
-            message: 'Customers not found.',
-            data: null
+            message: 'order not found.',
+            data: []
           });
         }
-        if(user.role != 0){
-          res.status(200).json({
-            success: true,
-            message: 'Not Authorized',
-            data: null
-          });
+        var arr = []
+        for(var i=0; i< order.length; i++){
+          if(order[i].user_id.role == 0){
+            arr.push(order[i]);
+          }
         }
-        var arr = user.ordered_products;
+
         res.status(200).json({
           success: true,
-          message: 'Customers product found successfully.',
+          message: 'Orders data found successfully.',
           data: arr
         });
       });
